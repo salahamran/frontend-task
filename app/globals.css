@@ -1,0 +1,285 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@theme inline {
+  --color-background: var(--background); --color-foreground: var(--foreground); --color-card: var(--card); --color-card-foreground: var(--card-foreground); --color-primary: var(--primary); --color-primary-foreground: var(--primary-foreground); --color-muted: var(--muted); --color-muted-foreground: var(--muted-foreground); --color-border: var(--border); --color-ring: var(--ring); --color-lemon: var(--lemon); --color-lemon-bright: var(--lemon-bright); --color-accent: var(--accent); --color-green: var(--green); --color-green-soft: var(--green-soft); --color-green-deep: var(--green-deep); --color-cream: var(--cream); --font-sans: 'Inter', 'Arial', sans-serif; --font-mono: var(--font-mono-src), 'IBM Plex Mono', monospace;
+  /* ── Redesign (Figma "1440w light") — additive; never replaces the tokens above,
+     so subpage bodies keep rendering with the legacy palette. Values below are the
+     real hexes read from the design nodes, not the file's (template) variable names. ── */
+  --color-ink: var(--ink); --color-ink-strong: var(--ink-strong); --color-ink-soft: var(--ink-soft); --color-placeholder: var(--placeholder); --color-surface: var(--surface); --color-surface-muted: var(--surface-muted); --color-surface-2: var(--surface-2); --color-surface-3: var(--surface-3); --color-line: var(--line); --color-line-soft: var(--line-soft); --color-acid: var(--acid); --color-marker: var(--marker); --color-won: var(--won); --color-warn: var(--warn); --color-lost: var(--lost); --font-onest: var(--font-onest-src), 'Onest', system-ui, sans-serif;
+  /* CRM mock — status/score pill fills and their dots, read from the leads table nodes. */
+  --color-tag-green: var(--tag-green); --color-tag-amber: var(--tag-amber); --color-tag-red: var(--tag-red); --color-tag-grey: var(--tag-grey);
+  --color-dot-qualified: var(--dot-qualified); --color-dot-won: var(--dot-won);
+  --color-cell-name: var(--cell-name); --color-cell-sub: var(--cell-sub); --color-interest: var(--interest); --color-score-good: var(--score-good);
+  /* The greens the product mocks share across sections — named once here so the leads table and
+     the section-2/3 panels cannot drift apart. "--gable"/"--viridian" are the descriptive names;
+     the cell-* names below alias them for the table's original call sites. */
+  --color-gable: var(--gable); --color-viridian: var(--viridian); --color-outer: var(--outer); --color-toggle-off: var(--toggle-off);
+  /* Trust-band wordmark families. Each channel name is set in a different face in the
+     design (that mixed typography IS the device), so these are single-purpose. */
+  --font-karma: var(--font-karma-src), Georgia, serif; --font-quicksand: var(--font-quicksand-src), system-ui, sans-serif; --font-bree: var(--font-bree-src), Georgia, serif; --font-bricolage: var(--font-bricolage-src), system-ui, sans-serif;
+  /* The CRM mock's small data text (design uses Inter there, not Onest). */
+  --font-inter: var(--font-inter-src), system-ui, sans-serif;
+}
+:root {
+  color-scheme: light;
+  --background: #f5f7dc;          /* citrus cream — page canvas */
+  --foreground: #173d32;          /* deep botanical green — ink */
+  --card: #ffffff;                /* white surface */
+  --card-foreground: #173d32;
+  --primary: #d8f23f;             /* vivid lemon */
+  --primary-foreground: #173d32;  /* deep green text on lemon */
+  --muted: #e8f0d9;               /* soft green surface */
+  --muted-foreground: #5a7166;    /* muted green-gray body text */
+  --border: rgba(23, 61, 50, .16);
+  --ring: #d8f23f;
+  --lemon: #d8f23f;
+  --lemon-bright: #e6f86f;
+  --lime: #cbe85a;
+  --graphite: #173d32;
+  --soft: #3f6658;
+  --accent: #3f6658;              /* accent text on light surfaces */
+  --green: #3f6658;
+  --green-soft: #e8f0d9;
+  --green-deep: #173d32;
+  --cream: #f5f7dc;
+  --radius: 1.1rem;
+
+  /* Redesign palette — read from the Figma nodes (Shark / Thunder / Fiord / Black Haze / Jonquil). */
+  --ink: #22242a;            /* primary text */
+  --ink-strong: #231f20;     /* near-black fills (dark button, button label on lime) */
+  --ink-soft: #415762;       /* secondary text */
+  --placeholder: #b3bdbd;    /* input placeholder */
+  --surface: #fafaf9;        /* page canvas (Desert Storm) — the design is "1440w light" */
+  --surface-muted: #f7f8f8;  /* footer panel */
+  --surface-2: #f2f3f3;      /* hazy panel / subtle border */
+  --surface-3: #f9fafa;      /* raised panel */
+  --line: #e5e6e6;           /* hairline (Black Haze) */
+  --line-soft: #eef1f1;      /* hairline, softer */
+  --acid: #d2f300;           /* brand lime — nav "Попробовать", "Выигран" tag. Node fill is
+                                #d2f300; the earlier #d3f035 was a render-sampled value. */
+  --marker: #e3ff8f;         /* highlight behind headline words (Jonquil) */
+  --won: #1e6b4e; --warn: #b37a00; --lost: #c52020;  /* CRM status / score tones */
+
+  /* CRM mock pills — one fill per semantic, normalised from the table nodes (the design
+     mixes two text styles across the score pills; see the build notes). */
+  --tag-green: #eef2e3;      /* Горячий / Квалифицирован */
+  --tag-amber: #fbf2da;      /* В работе / Выигран / mid scores */
+  --tag-red: #fbe9e9;        /* 85–100% scores */
+  --tag-grey: #e2e7e6;       /* Проигран / 22% */
+  --dot-qualified: #71a18a;  /* Квалифицирован dot */
+  --dot-won: #e9d4a3;        /* Выигран (open) dot */
+  --gable: #163b31;          /* the deep green the product mocks use for names and titles */
+  --viridian: #6a8173;       /* its matching sub-label / secondary green */
+  --cell-name: var(--gable); /* the leads table's client name */
+  --cell-sub: var(--viridian); /* its "VK · @a.kovaleva" sub-label */
+  --interest: #426150;       /* Интерес column text */
+  --score-good: #426150;     /* 60% score */
+  --outer: #22332c;          /* text on the lime "Online" tag */
+  --toggle-off: #b7c1be;     /* off-state switch track in the CRM sync rows */
+}
+* { box-sizing: border-box; border-color: var(--border); }
+html { scroll-behavior: smooth; }
+/* The page canvas is the redesign's, not the old palette's.
+ *
+ * This was the cream `--background` with two radial lemon/green glows painted over it. Every
+ * public page is now wrapped in `.lp`, which lays its own flat #fafaf9 canvas — so the cream was
+ * only ever visible on overscroll, on a route that had not been migrated, and behind the few
+ * milliseconds before the wrapper painted. Painting the design's own canvas here instead means
+ * the two agree, and a page that is missing its wrapper degrades to the right colour rather than
+ * to a different site's. The legacy `--background` / `--foreground` tokens still exist for the
+ * `.rich-text` fallbacks below; nothing else reads them. */
+body { margin: 0; background: var(--surface); color: var(--ink); font-family: var(--font-onest); line-height: 1.55; }
+
+/* The dark-green section scopes (`.green`, `.green-dark`), the lemon `.hl` underline and the
+   cream `.surface-soft` panel used to live here. All three belonged to the legacy palette and
+   were consumed only by components/marketing-site.tsx and components/russian-pages.tsx, which
+   are `.lp` now — so they, and the odd-section hairline divider that `.lp` had to opt out of,
+   are gone. The comments that used to sit on them are deleted with them rather than left
+   describing rules that no longer exist. */
+
+section { position: relative; }
+.ai-signal { animation: pulse-dot 3.8s ease-in-out infinite; }
+.ai-path { background: linear-gradient(90deg, transparent, rgba(216,242,63,.9), transparent); background-size: 220% 100%; animation: signal-flow 4.5s ease-in-out infinite; }
+.flow-node { border-radius: 999px; box-shadow: 0 0 0 1px rgba(216,242,63,.5), 0 12px 24px -12px rgba(23,61,50,.35); }
+
+/* The selection highlight is the design's own: the lime marker that sits behind a headline word
+   (`--marker`), with the ink the marker is always paired with. It used to be the legacy lemon
+   over the legacy green, which read as a different site's selection on an `.lp` page. */
+::selection { background: var(--marker); color: var(--ink-strong); }
+/* `.container-wide`, `.section` and `.eyebrow` were the legacy frame and its type scale, and
+   `.grid-lines` / `.glow` its background and shadow. `.lp` has `shell` and components/seo/tokens.ts
+   instead — see that file on why the scale is named rather than repeated. */
+
+/* ── The design scope ─────────────────────────────────────────
+   `.lp` is the design: the flat #fafaf9 canvas, the ink colour and Onest. Every public page is
+   wrapped in it now — the landing page, the blog, the knowledge base, the contact page and the
+   templated pages in components/marketing-site.tsx and components/russian-pages.tsx — so it is
+   no longer a scope inside a legacy site but the site itself. It stays a scope class rather
+   than moving to `body` because the wrapper is also what carries `id="top"` and the min-height,
+   and because keeping it explicit is what lets a future page opt out on purpose. */
+.lp { background: var(--surface); color: var(--ink); font-family: var(--font-onest); }
+
+/* The design's 1200px container. Global rather than scoped to `.lp` because the header and
+   footer are rendered outside the `.lp` wrapper's `<main>` on several pages. */
+.shell { width: min(1200px, calc(100% - 40px)); margin-inline: auto; }
+@media (min-width: 900px) { .shell { width: min(1200px, calc(100% - 80px)); } }
+
+/* Hand-painted lime highlight behind a headline word. The brush shape is a real
+   asset exported from the design (public/brush-marker.png) used as a mask, so the
+   painted edge survives at any size. Markup: <span class="marker"><span class="marker-bg" aria-hidden/>word</span>.
+
+   The design draws this one device at one proportion on every heading: a slim painted band
+   a little over half the line, centred, so the word's caps and descenders overshoot it on
+   both sides. Measured off the renders — the hero's "всегда" is 37px on a 70px line and
+   section 2's "ИИ-сотрудник" is 21px on a 39.6px line, both 53%. `.marker` is an
+   inline-block, so its height IS the line box, which lets one percentage cover every
+   heading size on the page instead of an em value per section. */
+.marker { position: relative; isolation: isolate; display: inline-block; }
+.marker-bg { position: absolute; inset: 23.5% -0.14em; z-index: -1; background-color: var(--marker); -webkit-mask: url('/brush-marker.png') center / 100% 100% no-repeat; mask: url('/brush-marker.png') center / 100% 100% no-repeat; }
+
+/* The second hand-painted device: the loop the design draws around "AI-менеджер" (section 5).
+   Same mask trick as `.marker-bg`, different artwork — the brush is a lasso with a tail that
+   trails off to the lower left, so it needs its own asset and its own box. In the file the loop
+   is a 224.64×72 mask sitting at x 57.92 inside the word's 295×50.4 box, which is the whole
+   origin of the numbers below: 19.6% and 76.15% across, and 141% of the line box vertically
+   (72 / 50.4). The word's letters are painted over it, not under — see `.marker`'s note on
+   `isolation`, which is what lets the negative z-index stay above the page background. */
+.ring-bg { position: absolute; left: 19.6%; top: -22%; width: 76.15%; height: 141%; z-index: -1; background-color: var(--marker); -webkit-mask: url('/brush-ring.png') center / 100% 100% no-repeat; mask: url('/brush-ring.png') center / 100% 100% no-repeat; }
+
+/* The design tiles a 16×16 dot grid behind the hero and a few panels. It is a texture,
+   not artwork, so it is a gradient tile rather than the exported SVG: one line, crisp at
+   every DPR, and it costs no request. */
+.dots { background-image: radial-gradient(rgba(34, 36, 42, .075) 1px, transparent 1.2px); background-size: 16px 16px; }
+
+@keyframes reveal-up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes reveal-scale { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: scale(1); } }
+@keyframes breathe { 0%, 100% { box-shadow: 0 0 70px rgba(216,242,63,.16); } 50% { box-shadow: 0 0 100px rgba(216,242,63,.3); } }
+@keyframes float-ui { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes pulse-dot { 0%, 100% { box-shadow: 0 0 0 0 rgba(216,242,63,.45); } 50% { box-shadow: 0 0 0 7px rgba(216,242,63,0); } }
+@keyframes signal-flow { 0% { background-position: 120% 0; opacity: .25; } 45%, 65% { opacity: 1; } 100% { background-position: -20% 0; opacity: .25; } }
+
+main > section { animation: reveal-up .75s both; }
+main > section:nth-child(2) { animation-delay: .06s; }
+main > section:nth-child(3) { animation-delay: .12s; }
+main > section:nth-child(4) { animation-delay: .18s; }
+main > section:nth-child(5) { animation-delay: .24s; }
+main > section:nth-child(6) { animation-delay: .3s; }
+main > section:nth-child(7) { animation-delay: .36s; }
+main > section:nth-child(8) { animation-delay: .42s; }
+main > section:nth-child(9) { animation-delay: .48s; }
+main > section:nth-child(10) { animation-delay: .54s; }
+main > section:nth-child(11) { animation-delay: .6s; }
+main .border { transition: border-color .3s ease, background-color .3s ease, transform .3s ease; }
+main a:not([href^="https://app"]), main button { transition: color .25s ease, border-color .25s ease, background-color .25s ease, transform .25s ease; }
+main a:not([href^="https://app"]):hover { transform: translateY(-2px); }
+/* The table of contents is a nav rail, not a link in a sentence: the lift above reads as the
+   whole list twitching as the pointer crosses it, and it moves the item the reader is aiming
+   at. Colour is the feedback there instead. Specificity matches the rule above deliberately —
+   same selector weight, later in the file, so this wins without `!important`. */
+main .toc a:hover { transform: none; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* Article bodies written in the CMS (Payload's Lexical editor).
+ *
+ * The converter emits bare <p>, <h2>, <ul>, <a>, <img> with no classes, so this styles by
+ * element. It is the only way: an editor writing an article chooses their own heading levels
+ * and list types, and there is no class for a component to hook onto.
+ *
+ * Values are copied from the surrounding hardcoded article template rather than invented —
+ * `text-muted-foreground` at the same size and leading as the paragraphs it sits beside, so a
+ * CMS article and a static one read identically. Colours come from the theme tokens, never a
+ * literal (see LANDING-CONTEXT.md). */
+.rich-text { color: var(--muted-foreground); font-size: 1.125rem; line-height: 2rem; }
+.rich-text > * + * { margin-top: 1.75rem; }
+.rich-text h2,
+.rich-text h3,
+.rich-text h4 { color: var(--foreground); font-weight: 600; letter-spacing: -.03em; line-height: 1.2; }
+.rich-text h2 { font-size: 1.875rem; margin-top: 3rem; }
+.rich-text h3 { font-size: 1.5rem; margin-top: 2.5rem; }
+.rich-text h4 { font-size: 1.25rem; margin-top: 2rem; }
+/* A heading reached from the table of contents must not land under the site header, which is
+   64px tall and `fixed` (components/site/site-header.tsx). 88px clears it with a little air, so
+   the heading reads as the top of a section rather than as text the bar is covering.
+   On h2/h3 only, because those are the levels that carry an anchor — see lib/cms/headings.ts. */
+.rich-text h2,
+.rich-text h3 { scroll-margin-top: 5.5rem; }
+.rich-text strong { color: var(--foreground); font-weight: 600; }
+.rich-text a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.rich-text ul,
+.rich-text ol { padding-left: 1.35rem; }
+.rich-text ul { list-style: disc; }
+.rich-text ol { list-style: decimal; }
+.rich-text li + li { margin-top: .6rem; }
+.rich-text li::marker { color: var(--accent); }
+.rich-text blockquote { border-left: 2px solid var(--lemon); color: var(--foreground); font-style: italic; padding-left: 1.35rem; }
+.rich-text hr { border: 0; border-top: 1px solid var(--border); }
+.rich-text img { border: 1px solid var(--border); height: auto; width: 100%; }
+/* Payload wraps an uploaded image in a figure with the media's caption beneath it. */
+.rich-text figure { margin: 0; }
+.rich-text figcaption { color: var(--muted-foreground); font-size: .875rem; margin-top: .75rem; }
+.rich-text code { background: var(--muted); border-radius: .35rem; font-family: var(--font-mono); font-size: .9em; padding: .15rem .4rem; }
+
+/* ── Tables in a CMS body ─────────────────────────────────────────────────────────────────────
+ *
+ * The editor's table feature (payload.config.ts) emits
+ * `div.lexical-table-container > table.lexical-table > tbody > tr > th|td.lexical-table-cell`.
+ * The converter writes `border: 1px solid #ccc; padding: 8px` as INLINE styles on every cell, so
+ * the border and padding here need `!important` to reach the site's colours and rhythm. The
+ * background is deliberately not overridden, so a cell colour chosen in the editor survives; only
+ * the header-state classes get one, because a header row is structure rather than a choice.
+ *
+ * The wrapper scrolls sideways: a five-column table cannot be made readable at 360px by
+ * compressing it, and a horizontally scrolling table is at least still a table. */
+.rich-text .lexical-table-container { overflow-x: auto; }
+.rich-text .lexical-table { border-collapse: collapse; font-size: 1rem; line-height: 1.55; width: 100%; }
+.rich-text .lexical-table-cell {
+  border: 1px solid var(--border) !important;
+  padding: .65rem .85rem !important;
+  text-align: left;
+  vertical-align: top;
+}
+.rich-text .lexical-table-cell-header-1,
+.rich-text .lexical-table-cell-header-2,
+.rich-text .lexical-table-cell-header-3 {
+  background: var(--muted);
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+/* The same block, re-pointed for pages in the redesign scope.
+ *
+ * `.rich-text` above is written in the older marketing vocabulary — `--muted-foreground`,
+ * `--foreground`, `--accent`, `--lemon`, `--border` — and `.lp` does not remap any of those, it
+ * only sets its own background, colour and typeface. So a CMS body dropped into a `.lp` page
+ * inherits the marketing palette and reads as copy pasted in from a different site.
+ *
+ * These rules are not duplicated wholesale, only the parts that carry a colour or the typeface;
+ * the sizes, spacing and list styling above are deliberately inherited, so a CMS article and the
+ * marketing articles still share one rhythm. Specificity does the rest — `.lp .rich-text a` wins
+ * over `.rich-text a` without `!important`.
+ *
+ * Inline images are the case worth knowing about: Payload's converter wraps an upload in a
+ * figure and emits only the media's `alt`, so an inline screenshot has no caption to style. The
+ * figcaption rule above is therefore reached only by other sources. */
+.lp .rich-text { color: var(--ink-soft); font-family: var(--font-onest); }
+.lp .rich-text h2,
+.lp .rich-text h3,
+.lp .rich-text h4 { color: var(--ink); font-weight: 500; letter-spacing: -.02em; }
+.lp .rich-text strong { color: var(--ink); font-weight: 600; }
+.lp .rich-text a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--acid); text-underline-offset: 3px; }
+.lp .rich-text li::marker { color: var(--ink-soft); }
+.lp .rich-text blockquote { border-left: 2px solid var(--marker); color: var(--ink); }
+.lp .rich-text hr { border-top: 1px solid var(--line); }
+.lp .rich-text img { border: 1px solid var(--line); border-radius: .75rem; }
+/* Tables, re-pointed for `.lp` like everything else here. `border-color` rather than a second
+ * `border` shorthand, so the width and style from the base rule survive; `!important` because the
+ * base rule's border is `!important` too and has to be beaten by specificity, not by order alone. */
+.lp .rich-text .lexical-table-cell { border-color: var(--line) !important; }
+.lp .rich-text .lexical-table-cell-header-1,
+.lp .rich-text .lexical-table-cell-header-2,
+.lp .rich-text .lexical-table-cell-header-3 { background: var(--surface-2); color: var(--ink); }
+/* The global `main a:hover` lift is a landing-page hover for buttons and cards; on a link inside
+   running prose it reads as a typo rather than as feedback. */
+.lp .rich-text a:hover { transform: none; }

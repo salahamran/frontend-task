@@ -1,0 +1,14 @@
+# Dependencies
+node_modules
+
+# Next.js build output
+.next/
+*.tsbuildinfo
+next-env.d.ts
+
+# There is intentionally no environment file in this task: the app has no backend.
+.env
+.env*.local
+
+# OS noise
+.DS_Store
